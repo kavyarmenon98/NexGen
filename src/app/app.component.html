@@ -1,0 +1,21 @@
+<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
+
+<div
+  *ngIf="showGlobalLoader$ | async"
+  class="fade-me"
+  [style.background-color]="themeService.lighterBlueBackgroundColor"
+>
+  <div style="height: 100%; width: 100%" fxLayout fxLayoutAlign="center center">
+    <mat-spinner color="primary" diameter="35"></mat-spinner>
+  </div>
+</div>
+
+<div
+  *ngIf="showInternetConnectionAlert"
+  [class.online]="(internetConnected$ | async) === true"
+  [class.offline]="(internetConnected$ | async) === false"
+>
+  {{ internetConnectionMsg }}
+</div>
+
+<router-outlet></router-outlet>

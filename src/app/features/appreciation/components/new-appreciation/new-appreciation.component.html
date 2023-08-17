@@ -1,0 +1,138 @@
+<div gdColumns="1fr" gdRows="auto 1fr auto" style="height: 100%">
+  <app-common-mat-drawer-header
+    [actionTitle]="dialogTitle"
+    (closeClicked)="closeDrawerClicked.emit()"
+  >
+  </app-common-mat-drawer-header>
+  <perfect-scrollbar>
+    <div
+      fxLayout="column"
+      fxLayoutGap="15px"
+      style="height: 100%; padding: 15px"
+    >
+      <mat-radio-group
+        [formControl]="appreciationTypeControl"
+        aria-label="Select an option"
+      >
+        <mat-radio-button value="1" style="padding-right: 10px"
+          >Appreciate</mat-radio-button
+        >
+        <mat-radio-button value="2" style="padding-right: 10px"
+          >Congratulate</mat-radio-button
+        >
+        <mat-radio-button value="3">Wish</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field appearance="outline" *ngIf="!user">
+        <mat-label [style.color]="themeService.darkBlueForgroundColor"
+          >Employees</mat-label
+        >
+
+        <mat-select
+          matInput
+          [formControl]="toWhomControl"
+          [disableControl]="usersLoading$ | async"
+          multiple
+          (selectionChange)="toWhomSelected()"
+        >
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="searchControl"
+              placeholderLabel="Find Reportees..."
+              noEntriesFoundLabel="No Reportees found!!!"
+            ></ngx-mat-select-search>
+          </mat-option>
+
+          <mat-option
+            [value]="user?.id"
+            *ngFor="let user of filteredUsers; trackBy: trackByUsers"
+          >
+            <div fxLayout fxLayoutGap="10px" fxLayoutAlign="start center">
+              <img class="avatar" [src]="getImageUrl(user)" />
+              <span> {{ user?.fullName }} - {{ user?.employeeCode }} </span>
+            </div>
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="usersLoading$ | async"> Loading... </mat-hint>
+        <mat-hint *ngIf="!(usersLoading$ | async)">
+          You may select multiple employees
+        </mat-hint>
+
+        <mat-error
+          ><shared-validation-message
+            [control]="toWhomControl"
+            controlName="Employees"
+          ></shared-validation-message
+        ></mat-error>
+      </mat-form-field>
+
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutGap="5px"
+        fxLayoutAlign="start start"
+        style="margin-top: -10px !important"
+        *ngIf="!user"
+      >
+        <mat-chip-list
+          aria-label="Employee List"
+          *ngIf="selectedEmployees?.length > 0"
+        >
+          <mat-chip
+            *ngFor="let emp of selectedEmployees"
+            [removable]="true"
+            class="primary"
+            (removed)="removeSelectedEmployee(emp)"
+          >
+            {{ emp?.fullName }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label [style.color]="themeService.darkBlueForgroundColor"
+          >Remarks</mat-label
+        >
+        <textarea
+          matInput
+          rows="3"
+          maxlength="250"
+          [formControl]="remarksControl"
+        ></textarea>
+        <mat-hint>{{
+          250 - remarksControl.value?.length + " characters left"
+        }}</mat-hint>
+        <mat-error
+          ><shared-validation-message
+            [control]="remarksControl"
+            controlName="Remarks"
+          ></shared-validation-message
+        ></mat-error>
+      </mat-form-field>
+    </div>
+  </perfect-scrollbar>
+  <app-common-drawer-footer>
+    <button
+      mat-raised-button
+      class="primary"
+      style="line-height: 30px; margin-left: 8px"
+      (click)="sendAppreciation()"
+      [class.spinner]="singleLoading$ | async"
+      [disabled]="singleLoading$ | async"
+    >
+      Send
+    </button>
+
+    <button
+      mat-raised-button
+      cdkFocusInitial
+      [style.background-color]="themeService.cancelColor"
+      style="color: white; line-height: 30px; margin-left: 8px"
+      class="button"
+      (click)="closeDrawerClicked.emit()"
+    >
+      Cancel
+    </button>
+  </app-common-drawer-footer>
+</div>

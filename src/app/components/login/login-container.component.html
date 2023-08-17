@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <mat-card class="mat-elevation-z8 login-container" *ngIf="isLarge">
+    <auth-login-form-controls class="login-controls"></auth-login-form-controls>
+  </mat-card>
+
+  <ng-container *ngIf="!isLarge">
+    <auth-login-form-controls gdColumn.lt-lg="2"></auth-login-form-controls>
+  </ng-container>
+</div>

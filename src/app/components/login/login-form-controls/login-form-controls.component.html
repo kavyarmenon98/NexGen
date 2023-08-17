@@ -1,0 +1,93 @@
+<mat-card
+  gdColumns="auto"
+  gdRows="55px auto auto"
+  gdGap="10px"
+  class="mat-elevation-z8"
+  style="padding: 20px"
+  id="parent-card"
+>
+  <div gdRow="1" fxLayout fxLayoutAlign="center center">
+    <img src="assets/images/logo.png" alt="Time" id="logo" />
+  </div>
+
+  <span
+    gdRow="2"
+    class="tag-line"
+    style="font-size: 13px"
+    [style.color]="themeService.darkBlueForgroundColor"
+  >
+    Time is priceless, we even count moments!
+  </span>
+
+  <form
+    *ngIf="loginForm"
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+    gdRow="3"
+  >
+    <div fxLayout="column" fxLayoutAlign="start">
+      <mat-form-field appearance="outline">
+        <mat-label>Username/Email</mat-label>
+        <input
+          type="text"
+          formControlName="username"
+          matInput
+          id="username"
+          maxlength="100"
+        />
+        <mat-error
+          ><shared-validation-message
+            [control]="username"
+            controlName="Username"
+          ></shared-validation-message
+        ></mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <mat-icon
+          *ngIf="!showPassword"
+          matSuffix
+          (click)="showPassword = !showPassword"
+          class="show-pointer"
+          >visibility_off</mat-icon
+        >
+        <mat-icon
+          *ngIf="showPassword"
+          matSuffix
+          (click)="showPassword = !showPassword"
+          class="show-pointer"
+          >visibility_on</mat-icon
+        >
+        <input
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
+          matInput
+          id="password"
+        />
+        <mat-error>
+          <shared-validation-message
+            [control]="password"
+            controlName="Password"
+          ></shared-validation-message>
+        </mat-error>
+      </mat-form-field>
+
+      <div fxLayout="column" fxLayoutGap="15px">
+        <button
+          mat-raised-button
+          color="primary"
+          [class.spinner]="loading$ | async"
+          [disabled]="loading$ | async"
+        >
+          Login
+        </button>
+
+        <div fxLayout fxLayoutGap="10px" fxLayoutAlign="start center">
+          <a (click)="forgotPassword()" style="font-size: 13px">
+            Forgot Password?
+          </a>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

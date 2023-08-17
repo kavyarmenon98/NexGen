@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+    - '*'
+
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: Angular
+    verbose: false
+
+- task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+  displayName: 'Prepare analysis on SonarCloud'
+  inputs:
+    SonarCloud: 'sonar cloud'
+    organization: epicastudio
+    scannerMode: CLI
+    configMode: manual
+    cliProjectKey: 'Effism_angular'
+
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'

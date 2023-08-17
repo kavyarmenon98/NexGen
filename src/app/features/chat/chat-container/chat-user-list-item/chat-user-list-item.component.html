@@ -1,0 +1,13 @@
+<div fxLayout fxLayoutAlign="space-between center" style="width: 100%">
+  <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+    <img
+      [src]="getImageUrl()"
+      alt="Profile"
+      style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%"
+    />
+
+    <div fxLayout="column">
+      <div>{{ user?.fullName }}</div>
+    </div>
+  </span>
+</div>

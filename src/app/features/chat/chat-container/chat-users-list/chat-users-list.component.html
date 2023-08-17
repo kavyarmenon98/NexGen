@@ -1,0 +1,39 @@
+<div
+  gdColumns="1fr"
+  gdRows="auto 1fr"
+  class="right-box-shadow"
+  style="height: 100%"
+>
+  <div style="padding: 10px 20px">
+    <app-filtered-select
+      *ngIf="(chatUsers$ | async)?.length > 0"
+      [itemList]="chatUsers$ | async"
+      [searchedLabel]="'fullName'"
+      [placeholder]="'Search User'"
+      [noneOption]="false"
+      [formControl]="selectedChatUserControl"
+    ></app-filtered-select>
+  </div>
+  <perfect-scrollbar style="height: calc(100vh - 118px); margin-top: -25px">
+    <div
+      style="height: calc(100vh - 118px)"
+      fxLayout
+      fxLayoutAlign="center center"
+      *ngIf="(chatUsers$ | async)?.length === 0"
+    >
+      <span>No users online</span>
+    </div>
+    <mat-nav-list *ngIf="(chatUsers$ | async)?.length > 0">
+      <ng-container
+        *ngFor="let user of chatUsers$ | async; trackBy: trackByUsers"
+      >
+        <mat-list-item
+          (click)="setSelectedChatUser(user)"
+          [style.backgroundColor]="isSelected(user)"
+        >
+          <app-chat-user-list-item [user]="user"></app-chat-user-list-item>
+        </mat-list-item>
+      </ng-container>
+    </mat-nav-list>
+  </perfect-scrollbar>
+</div>

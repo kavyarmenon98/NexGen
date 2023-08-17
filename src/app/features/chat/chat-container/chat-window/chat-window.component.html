@@ -1,0 +1,88 @@
+<div
+  gdColumns="1fr"
+  gdRows="auto 1fr "
+  style="height: 100%"
+  *ngIf="!selectedChatUser"
+  gd
+>
+  <div fxLayout fxLayoutAlign="end center" style="padding: 5px 15px">
+    <ng-template [ngTemplateOutlet]="closeButton"></ng-template>
+  </div>
+
+  <div
+    fxLayout
+    fxLayoutAlign="center center"
+    style="height: 100%; text-align: center; font-weight: bold"
+  >
+    <span fxFlex> Please select a user from the list to start chatting </span>
+  </div>
+</div>
+
+<div
+  *ngIf="selectedChatUser"
+  gdColumns="1fr"
+  [gdRows]="isLoading ? 'auto 1fr auto auto' : 'auto 1fr auto'"
+  style="height: 100%"
+>
+  <div
+    fxLayout
+    fxLayoutAlign="space-between center"
+    class="bottom-box-shadow"
+    style="padding: 10px 15px; background-color: #fff"
+  >
+    <div fxLayout fxLayoutGap="10px">
+      <img
+        [src]="
+          getImageUrl(selectedChatUser ? selectedChatUser.profileImage : '')
+        "
+        alt="Profile"
+        style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%"
+      />
+
+      <div fxLayout="column">
+        <div style="font-weight: bold">
+          {{ selectedChatUser.fullName }} - {{ selectedChatUser.employeeCode }}
+        </div>
+        <small>online</small>
+      </div>
+    </div>
+
+    <ng-template [ngTemplateOutlet]="closeButton"></ng-template>
+  </div>
+  <perfect-scrollbar>
+    <div fxLayout="column" fxLayoutGap="2px" style="height: 100%">
+      <ng-container *ngFor="let msg of chatMessages; trackBy: trackByMsg">
+        <app-chat-message-bubble
+          [msg]="msg"
+          [image]="selectedChatUser?.profileImage"
+        ></app-chat-message-bubble>
+      </ng-container>
+    </div>
+  </perfect-scrollbar>
+  <div>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div
+    fxLayout
+    fxLayoutAlign="space-between"
+    style="padding: 10px 15px; background-color: #fff"
+  >
+    <input
+      #input
+      type="text"
+      style="width: 100%; outline: none; border: none; font: inherit"
+      placeholder="Type a message"
+      [formControl]="messageControl"
+      (keydown.enter)="sendMessage()"
+      maxlength="500"
+    />
+    <button mat-mini-fab color="primary" (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>
+<ng-template #closeButton>
+  <button mat-mini-fab (click)="handleClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</ng-template>

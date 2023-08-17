@@ -1,0 +1,105 @@
+<mat-drawer-container
+  style="height: calc(100vh - 70px); margin: -10px; margin-bottom: 0px"
+>
+  <mat-drawer
+    [ngStyle]="{ width: '50%' }"
+    [ngStyle.xs]="{ width: '100%' }"
+    [ngStyle.sm]="{ width: '70%' }"
+    #drawer
+    [position]="'end'"
+    mode="over"
+    [autoFocus]="false"
+    [disableClose]="true"
+  >
+    <app-new-appreciation
+      *ngIf="drawer.opened"
+      (closeDrawerClicked)="closeDrawer()"
+    ></app-new-appreciation>
+  </mat-drawer>
+  <mat-drawer-content
+    style="background-color: #eef5f9; padding: 10px"
+    gdRows="auto 1fr"
+    gdColumns="1fr"
+    gdGap="5px"
+  >
+    <app-page-header [title]="'Appreciations'">
+      <div
+        fxLayout
+        fxLayoutAlign="end center"
+        style="padding-top: 5px; padding-bottom: 5px"
+      >
+        <button
+          color="primary"
+          fxFlexAlign="end"
+          type="button"
+          mat-raised-button
+          style="height: 30px; line-height: 30px; width: 100px"
+          (click)="drawer.open()"
+        >
+          New
+        </button>
+      </div>
+    </app-page-header>
+
+    <mat-tab-group
+      style="background-color: white; margin-left: -10px; margin-right: -10px"
+      dynamicHeight
+    >
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span
+            [style.color]="themeService.darkBlueForgroundColor"
+            style="font-weight: 600; margin-right: 10px"
+            >Received
+          </span>
+          <span
+            class="rounded-rectangle-border mat-elevation-z3"
+            style="border-width: 0; width: 30px; font-weight: 600"
+          >
+            {{ (receivedAppreciations$ | async)?.length }}</span
+          >
+        </ng-template>
+        <div style="height: calc(100vh - 190px)">
+          <app-custom-ag-grid
+            *ngIf="frameworkComponents"
+            style="height: 100%"
+            [columns]="receivedAppreciationColumns"
+            [rowData]="receivedAppreciations$ | async"
+            [isLoading]="receivedAppreciationIsLoading$ | async"
+            [frameworkComponents]="frameworkComponents"
+          >
+            >
+          </app-custom-ag-grid>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span
+            [style.color]="themeService.darkBlueForgroundColor"
+            style="font-weight: 600; margin-right: 10px"
+            >Given
+          </span>
+          <span
+            class="rounded-rectangle-border mat-elevation-z3"
+            style="border-width: 0; width: 30px; font-weight: 600"
+          >
+            {{ (givenAppreciations$ | async)?.length }}</span
+          >
+        </ng-template>
+        <div style="height: calc(100vh - 190px)">
+          <app-custom-ag-grid
+            *ngIf="frameworkComponents"
+            style="height: 100%"
+            [columns]="givenAppreciationColumns"
+            [rowData]="givenAppreciations$ | async"
+            [isLoading]="givenAppreciationIsLoading$ | async"
+            [frameworkComponents]="frameworkComponents"
+          >
+            >
+          </app-custom-ag-grid>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-drawer-content>
+</mat-drawer-container>

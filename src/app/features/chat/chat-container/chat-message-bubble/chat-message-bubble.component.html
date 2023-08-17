@@ -1,0 +1,36 @@
+<div
+  fxLayout
+  style="padding: 10px"
+  [fxLayoutAlign]="isCurrentUser ? 'end center' : 'start center'"
+  fxLayoutGap="10px"
+>
+  <img
+    *ngIf="!isCurrentUser"
+    fxFlexAlign="start"
+    [src]="getImageUrl(image ? image : '')"
+    alt="Profile"
+    style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%"
+  />
+  <div
+    [style.backgroundColor]="isCurrentUser ? '#D4EDFB' : 'white'"
+    style="border-radius: 5px; padding: 5px 15px; max-width: 80%; min-width: 0"
+    class="mat-elevation-z2"
+  >
+    <div fxLayout="column">
+      <small>
+        <div fxLayout fxLayoutGap="15px">
+          <strong *ngIf="!isCurrentUser">
+            {{ msg.fromName }}
+          </strong>
+
+          <span>{{ getTime() }} </span>
+        </div>
+      </small>
+      <div class="break">
+        {{ msg.message }}
+      </div>
+    </div>
+
+    <ng-container *ngIf="isCurrentUser"> </ng-container>
+  </div>
+</div>

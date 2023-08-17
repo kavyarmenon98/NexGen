@@ -1,0 +1,87 @@
+// Mobile First
+
+.wrapper {
+  height: 100%;
+  grid-template-columns: 1fr 12fr 1fr;
+  display: grid;
+  align-items: center;
+  background-image: url("../../../assets/images/login-mobile-graphics-right-only.svg"),
+    url("../../../assets/images/leg-left-graphics.svg"),
+    url("../../../assets/images/Effism-logo-only.svg"),
+    url("../../../assets/images/login-bg.svg");
+  background-position: top right, left bottom, 50% 98%, top;
+  background-size: 50%, 30%, 20%;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+}
+
+.login-container {
+  display: none;
+}
+
+.login-controls {
+  grid-column: 2/13;
+  grid-row: 2;
+}
+
+// Large Screen
+@media only screen and (min-width: 769px) {
+  .wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 725px 1fr;
+    align-items: center;
+    background-image: url("../../../assets/images/login-bg.svg");
+    background-size: contain;
+    background-repeat: repeat;
+  }
+
+  .login-container {
+    display: grid;
+    -ms-grid-row-align: center;
+    grid-column: 2/3;
+    grid-template-columns: repeat(24, 1fr);
+    grid-template-rows: 1fr 10fr 1fr;
+    background-image: url("../../../assets/images/login-graphics2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #logo {
+    height: 45px;
+  }
+}
+
+// Tablet
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  .wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 7fr 2fr;
+    align-items: center;
+    background-image: url("../../../assets/images/login-mobile-graphics-right-only.svg"),
+      url("../../../assets/images/leg-left-graphics.svg"),
+      url("../../../assets/images/Effism-logo-only.svg"),
+      url("../../../assets/images/login-bg.svg");
+    background-position: top right, left bottom, 50% 98%, top;
+    background-size: 50%, 30%, 20%;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    min-height: 500px;
+  }
+}
+
+@media only screen and (max-width: 600) {
+  .wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 5fr 2fr;
+    align-items: center;
+    background-image: url("../../../assets/images/login-mobile-graphics-right-only.svg"),
+      url("../../../assets/images/leg-left-graphics.svg"),
+      url("../../../assets/images/Effism-logo-only.svg"),
+      url("../../../assets/images/login-bg.svg");
+    background-position: top right, left bottom, 50% 95%, top;
+    background-size: 50%, 30%, 20%;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    min-height: 550px;
+  }
+}
